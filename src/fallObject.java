@@ -32,7 +32,10 @@ public class fallObject {
             collider.draw();
         }
         else{
+            UI.eraseOval(X, Y, squareSize, squareSize);
+            this.Y = collider.getY()-squareSize;
             this.velocity = (this.velocity*-1)+this.velocity*0.1;
+            this.draw();
         }
     }
 

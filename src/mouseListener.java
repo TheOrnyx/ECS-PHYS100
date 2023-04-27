@@ -1,4 +1,6 @@
 import ecs100.UI;
+import ecs100.UISliderListener;
+
 public class mouseListener {
     private effector collider;
 
@@ -10,4 +12,5 @@ public class mouseListener {
 
         }
     }
+
 }

@@ -8,17 +8,17 @@ import java.util.Random;
 public class Main {
 
     public static final Random random = new Random();
+    public effector colliisionObj = new effector(500);
 
     static final long tickRateMS = 10;
     public void setupGUI(){
         UI.initialise();
-        UI.setWindowSize(1000, 700);
+        UI.setWindowSize(1000, 800);
         UI.addButton("regretful", this::start);
-
+        UI.addSlider("change collider", 100, 700, colliisionObj.getY() ,(double v) -> colliisionObj.sliderListen(v));
     }
 
     public void start(){
-        effector colliisionObj = new effector(500);
         fallObject johnathan = new fallObject(random.nextDouble(600)+20, 40, colliisionObj);
         mouseListener mouse = new mouseListener();
         mouse.mouseInit(colliisionObj);
