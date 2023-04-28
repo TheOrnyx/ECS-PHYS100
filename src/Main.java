@@ -8,28 +8,28 @@ import java.util.Random;
 public class Main {
 
     public static final Random random = new Random();
-    public effector colliisionObj = new effector(500);
+    public static effector colliisionObj = new effector(500);
+    private static Main main = new Main();
+    private static mouseListener mouse = new mouseListener();
+
 
     static final long tickRateMS = 10;
     public void setupGUI(){
         UI.initialise();
         UI.setWindowSize(1000, 800);
-        UI.addButton("regretful", this::start);
         UI.addSlider("change collider", 100, 700, colliisionObj.getY() ,(double v) -> colliisionObj.sliderListen(v));
+        UI.setMouseListener(mouse::mousePosition);
     }
 
-    public void start(){
-        fallObject johnathan = new fallObject(random.nextDouble(600)+20, 40, colliisionObj);
-        mouseListener mouse = new mouseListener();
-        mouse.mouseInit(colliisionObj);
+    public void start(double x, double y){
+        fallObject johnathan = new fallObject(x, y, colliisionObj);
         final ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
         executorService.scheduleAtFixedRate(johnathan::startPhys, 0, 10, TimeUnit.MILLISECONDS);
         johnathan.draw();
         johnathan.startPhys();
     }
     public static void main(String[] args) {
-
-        Main main = new Main();
+        mouse.mouseInit(colliisionObj, main);
         main.setupGUI();
     }
 

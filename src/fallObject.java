@@ -20,12 +20,12 @@ public class fallObject {
     }
 
     public void draw(){
-        UI.drawOval(X, Y, squareSize, squareSize);
+        UI.drawRect(X, Y, squareSize, squareSize);
     }
 
     public void startPhys(){
         if (collisionCheck()) {
-            UI.eraseOval(X, Y, squareSize, squareSize);
+            UI.eraseRect(X, Y, squareSize, squareSize);
             this.velocity = velocity+acceleration;
             this.Y = this.Y + velocity;
             this.draw();
