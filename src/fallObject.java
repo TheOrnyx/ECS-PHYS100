@@ -21,6 +21,7 @@ public class fallObject {
 
     private ArrayList<fallObject> objectsVec;
     private double index;
+    private double bounciness = 0.3;
 
     public fallObject(double initX, double initY, effector collider, ArrayList<fallObject> objectsVec){
         this.X = initX;
@@ -50,7 +51,7 @@ public class fallObject {
             } else {
                 UI.eraseOval(X, Y, squareSize, squareSize);
                 this.Y = collider.getY() - squareSize;
-                this.velocity = (this.velocity * -1) + this.velocity * 0.1;
+                this.velocity = (this.velocity * -1) + this.velocity * bounciness;
                 this.draw();
             }
         }
@@ -65,8 +66,8 @@ public class fallObject {
     public boolean objectCollision(){
         for (fallObject obj: objectsVec){
             if (objectsVec.indexOf(obj) != objectsVec.indexOf(this)){
-                double distance = distance_check(this.X, this.Y, obj.getX(), obj.getY());
-                if (distance <= squareSize){
+                boolean distance = distance_check(this.X, this.Y, obj.getX(), obj.getY());
+                if (distance){
                     if (this.Y <= obj.getY() && !(Math.abs(obj.getVelocity()) < 1)){
                         this.setVelocity(Math.abs(obj.getVelocity())*-1);
                         obj.setVelocity(0);
@@ -77,14 +78,10 @@ public class fallObject {
                     else if (this.Y <= obj.getY() && Math.abs(obj.getVelocity()) < 1){
                         UI.eraseRect(X, Y, squareSize, squareSize);
                         this.Y = obj.getY() - squareSize;
-                        this.velocity = (this.velocity * -1) + this.velocity * 0.1;
+                        this.velocity = (this.velocity * -1) + this.velocity * bounciness;
                         return true;
                     }
-                    /*else if (this.Y >= obj.getY()){
-                        obj.setVelocity(-1*this.getVelocity());
-                    }*/
                 }
-
             }
         }
         return false;
@@ -94,9 +91,13 @@ public class fallObject {
         return this.Y + velocity+squareSize <= collider.getY();
     }
 
-    public double distance_check(double x1, double y1, double x2, double y2){
-        return Math.sqrt(Math.pow(x1-x2, 2)+Math.pow(y1-y2, 2));
+    public boolean distance_check(double x1, double y1, double x2, double y2){
+        return x1 >= x2 - squareSize && x1 <= x2 + squareSize && (y1 + this.velocity)+squareSize >= y2;
     }
+
+    /*public double distance_check(double x1, double y1, double x2, double y2){
+        return Math.sqrt(Math.pow(x1-x2, 2)+Math.pow(y1-y2, 2));
+    }*/ //ignore, I fuckiing hate circles.
 
     public double getX() {
         return X;
